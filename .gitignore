@@ -3,4 +3,4 @@
 .venv/
 *.pt
 runs/
-datasets
+datasets/
