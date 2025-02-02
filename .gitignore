@@ -5,3 +5,6 @@
 runs/
 datasets/
 models/
+*.pyc
+__pycache__
+*.ignore
