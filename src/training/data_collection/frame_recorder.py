@@ -1,6 +1,10 @@
 import cv2
 import time
+import os
 from datetime import datetime
+
+from common.camera_init import cam_init_wizard
+
 
 # camera index (0 is usually the default camera)
 camera_index = 0
@@ -10,7 +14,6 @@ capture_interval = 5
 output_folder = f"./captures/{datetime.now().strftime("%Y%m%d_%H%M%S")}"
 
 # create output folder if it doesn't exist
-import os
 os.makedirs(output_folder, exist_ok=True)
 
 # verify working dir
@@ -20,35 +23,7 @@ if not "frame_recorder.py" in dir_cont:
 
 
 
-def cam_init_wizard() -> cv2.VideoCapture:
-    # initialize camera
-    for i in range(10):
-        camera = cv2.VideoCapture(i)
-        print("Check for webcam light, correct device?")
-        correct = input("(Y/N)")
-        if correct == "N" or correct == "n":
-            camera.release()
-            continue
-        else:
-            print(f"Selecting camera index: {i}")
-            break
 
-    if not camera.isOpened():
-        raise Exception("could not open camera")
-
-    print("taking testing frame")
-    ret, test_frame = camera.read()
-    if not ret:
-        print("failed to grab frame, exiting...")
-        exit()
-    cv2.imwrite("TEST.jpg", test_frame)
-    delete = input("is image good (Y/N)")
-    os.remove("TEST.jpg")
-    if delete == "N" or delete == "n":
-        print("bad image, quitting...")
-        quit()
-
-    return camera
 
 print("Run cam wizard?")
 correct = input("(Y/N) ")
